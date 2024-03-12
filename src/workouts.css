@@ -1,0 +1,133 @@
+/**
+ * Styles for the Admin Page
+ * 
+ * `.admin-page` sets the overall layout and font for the admin page, centering the content and defining a maximum width.
+ * `.exercise-category` styles the sections that group exercises by their category, with a bottom margin for spacing.
+ * `.exercise-category h2` styles the headings for each exercise category, aligning them to the start.
+ * `.exercise-list` defines a grid layout for listing exercises within a category, with consistent gaps and columns.
+ * `.exercise-card` styles the individual exercise cards, adding a border, shadow, and setting dimensions.
+ * `.exercise-logo` styles the logo image within each exercise card, setting its size and margin.
+ * `.exercise-info h3` styles the exercise title, ensuring text overflow is handled elegantly.
+ * `.exercise-actions` defines the layout for action buttons (view, edit, delete) within an exercise card.
+ * `.exercise-actions .btn` provides a base style for buttons, including padding, border, and cursor appearance.
+ * Button variations (`.view`, `.edit`, `.delete`) are styled with specific background colors.
+ * `.add-exercise-btn` styles the button used to add new exercises, positioning it and setting its appearance.
+ * `.detailed-view` and `.edit-exercise-form` add margin-top to adjust their vertical spacing on the page.
+ */
+
+
+.admin-page {
+  font-family: Arial, sans-serif;
+  margin: auto;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+}
+
+.exercise-category {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.exercise-category h2 {
+  margin-bottom: 1rem;
+  color: black;
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+}
+  
+  
+  .exercise-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1rem;
+    align-content: center;
+  }
+  
+  .exercise-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    max-width: 400px; 
+    align-content: center;
+    width: 400px;
+    max-height: fit-content;
+  }
+  
+  .exercise-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-bottom: 1rem; 
+    border-radius: 4px;
+  }
+  
+  .exercise-info h3 {
+    margin: 0;
+  color: black;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+  
+  .exercise-actions {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    width: 100%; 
+    padding-top: 1rem; 
+  }
+  
+  .exercise-actions .btn {
+    padding: 0.5rem 1rem;
+    margin: 0 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  
+  .exercise-actions .btn.view {
+    background-color: #FFC107;
+    color: white;
+  }
+  
+  .exercise-actions .btn.edit {
+    background-color: #17A2B8;
+    color: white;
+  }
+  
+  .exercise-actions .btn.delete {
+    background-color: #DC3545;
+    color: white;
+  }
+  
+  .exercise-actions .btn:hover {
+    opacity: 0.8;
+  }
+.add-exercise-btn {
+margin-top: 50px;
+background-color: black;
+color: azure;
+height: 30px;
+align-items: right;
+}
+
+.detailed-view
+ {
+  margin-top: 5rem; /* Adjust as needed */
+}
+
+.edit-exercise-form {
+  margin-top:3rem;
+}

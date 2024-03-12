@@ -1,0 +1,57 @@
+/* AddExercise.css */
+.add-exercise-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 700px;
+    max-width: auto;
+    margin: 20px auto;
+    padding: 30px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    margin-top: 3rem;
+    min-width: max-content;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="file"],
+  .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .form-group #instructions {
+    min-height: 150px; 
+    resize: vertical; 
+}
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancel-btn,
+  .save-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  .cancel-btn {
+    background-color: #f45555;
+  }
+  
+  .save-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
