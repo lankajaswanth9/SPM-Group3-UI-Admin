@@ -191,14 +191,14 @@ const LandingPage = () => {
                         <p style={imageNameStyle}>Dashboard</p>
                     </div>
                     <div style={imageItem}>
-                        <Link to="/edit-workouts" style={navItemStyle}>
+                        <Link to="/Workouts" style={navItemStyle}>
                             <img 
                                 src={editWorkoutsImageUrl} 
                                 alt="Edit Workouts" 
                                 style={imageStyle} 
                             />
                         </Link>
-                        <p style={imageNameStyle}>Edit Workouts</p>
+                        <p style={imageNameStyle}>Edit Ecercises</p>
                     </div>
                     <div style={imageItem}>
                         <Link to="/reports" style={navItemStyle}>

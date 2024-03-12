@@ -1,0 +1,68 @@
+/* EditForm.css */
+
+/* Styles the main container of the edit exercise form, setting its maximum width, auto margins for center alignment, padding for spacing inside, white background, rounded corners, and a subtle box shadow for depth. */
+.edit-exercise-form {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Applies margin to the bottom of form groups for spacing, affecting all form elements grouped together. */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Styles labels within form groups to be block elements with a margin bottom for spacing above the form control they label. */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Styles text inputs, textareas, and selects within form groups to fill 100% of their container's width, with padding for internal spacing, a slight margin top for spacing from their label, a border for definition, and rounded corners. */
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Ensures that images within form groups are responsive, with their max-width set to 100% of their container's width, automatically adjusted height to maintain aspect ratio, and margin bottom for spacing. */
+.form-group img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* Aligns form action buttons (like save and cancel) to the right of the form for a standard form action layout. */
+.form-actions {
+  text-align: right;
+}
+
+/* Styles save and cancel buttons with padding for size, no border, rounded corners, cursor pointer for interactivity, bold font weight for emphasis, and a left margin to ensure spacing between buttons when they appear inline. */
+.form-actions .save-btn,
+.form-actions .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+/* Sets the background color and text color for the save button, using a green background for an affirmative or "proceed" action. */
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Sets the background color and text color for the cancel button, using a red background to indicate a stop, close, or "do not proceed" action. */
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
