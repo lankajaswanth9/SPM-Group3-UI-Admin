@@ -1,0 +1,63 @@
+.edit-user-form-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Or any background color you prefer */
+  }
+  
+  .edit-user-form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Adjust width as needed */
+  }
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-icon {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    margin: 10px 0;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-actions {
+    text-align: center;
+  }
+  
+  .save-btn,
+  .cancel-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .cancel-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  

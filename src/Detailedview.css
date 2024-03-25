@@ -56,8 +56,8 @@
 * - Object-fit contain ensures the image is fully visible without distortion.
 */
 .exercise-image {
-  max-width: 800px; 
-  height: auto;
+  width: 800px; 
+  height: 300px;
   object-fit: contain; 
 }
 
