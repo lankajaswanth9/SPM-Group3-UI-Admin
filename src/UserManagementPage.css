@@ -49,6 +49,7 @@
   justify-content: flex-end;
 }
 
+.view-btn,
 .edit-btn,
 .delete-btn {
   padding: 5px 10px;
@@ -66,5 +67,9 @@
 
 .delete-btn {
   background-color: #f44336;
+  color: white;
+}
+.view-btn {
+  background-color: #1d90d2;
   color: white;
 }

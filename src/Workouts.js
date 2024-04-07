@@ -90,9 +90,9 @@ const AdminPage = () => {
     setSelectedExercise(null);
   };
 
-  const handleDeleteClick = async (exerciseId) => {
+  const handleDeleteClick = async (exercise_id) => {
     // Attempt to parse the ID as an integer
-    const id = parseInt(exerciseId, 10);
+    const id = parseInt(exercise_id, 10);
 
     // Check if the result is an integer using the Number.isInteger() function
     if (!Number.isInteger(id)) {
