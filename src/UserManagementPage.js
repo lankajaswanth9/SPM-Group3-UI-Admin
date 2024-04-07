@@ -1,17 +1,12 @@
-// UserManagementPage.js
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import UserList from './UserList';
 import EditUserForm from './EditUserForm';
-import AddUserForm from './AddUserForm'; // Import the AddUserForm component
+import AddUserForm from './AddUserForm';
 import './UserManagementPage.css';
 import './Navbar.css';
+import axios from 'axios';
 
-const mockUsers = [
-  { userid: '1', Name: 'Name1', Email: 'email1@example.com', Password: 'password1', role: 'Admin', create_time: '2021-01-01T09:00:00Z', update_time: '2021-01-01T12:00:00Z' },
-  { userid: '2', Name: 'Name2', Email: 'email2@example.com', Password: 'password2', role: 'User', create_time: '2021-02-01T09:00:00Z', update_time: '2021-02-01T12:00:00Z' },
-  // ... more users
-];
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
@@ -19,44 +14,102 @@ const UserManagementPage = () => {
   const [addingUser, setAddingUser] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setUsers(mockUsers);
-    }, 500);
+    const fetchUsers = async () => {
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; 
+        const response = await axios.get('http://localhost:3000/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+          },
+        });
+        setUsers(response.data); 
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        alert('Error fetching users: ' + error.message); 
+      }
+    };
+  
+    fetchUsers();
   }, []);
 
   const handleEdit = (user) => {
     setEditingUser(user);
-    setAddingUser(false); // Hide the AddUserForm if it's visible
+    setAddingUser(false);
   };
 
-  const handleSave = (updatedUser) => {
-    setUsers(users.map(user => user.userid === updatedUser.userid ? updatedUser : user));
-    setEditingUser(null);
+  const handleSave = async (updatedUser) => {
+    try {
+    
+      const token = localStorage.getItem('token'); 
+      await axios.put(`http://localhost:3000/users/${updatedUser.user_id}`, updatedUser, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      // Update the local state to reflect the changes
+      setUsers(users.map(user => user.user_id === updatedUser.user_id ? updatedUser : user));
+      setEditingUser(null);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      alert('Error updating user: ' + error.message);
+    }
   };
+  
 
   const handleCancel = () => {
     setEditingUser(null);
     setAddingUser(false);
   };
 
-  const handleDelete = (userId) => {
-    setTimeout(() => {
-      setUsers(users.filter(user => user.userid !== userId));
-    }, 500);
+  const handleDelete = async (user_id) => {
+    try {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; // Replace with your JWT token
+      await axios.delete(`http://localhost:3000/users/${user_id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      
+      setUsers(users.filter(user => user.user_id !== user_id));
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Error deleting user: ' + error.message); 
+    }
   };
+  
 
   const handleAddUser = () => {
     setAddingUser(true);
-    setEditingUser(null); // Hide the EditUserForm if it's visible
+    setEditingUser(null);
   };
 
-  const handleSaveNewUser = (newUser) => {
-    // Generate a unique ID for the new user (you might want to use a more robust method in a real application)
-    const newId = Math.max(...users.map(user => parseInt(user.userid))) + 1;
-    const newUserWithId = { ...newUser, userid: newId.toString() };
-    setUsers([...users, newUserWithId]);
-    setAddingUser(false);
+  const handleSaveNewUser = async (newUser) => {
+    try {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; // Replace with your JWT token
+      const response = await axios.post('http://localhost:3000/users', newUser, {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json',
+        },
+      });
+      
+
+      const createdUser = response.data;
+
+    
+      setUsers([...users, createdUser]);
+      setAddingUser(false); 
+    } catch (error) {
+      console.error('Error adding new user:', error);
+      alert('Error adding new user: ' + error.message); 
+    }
   };
+
 
   return (
     <>

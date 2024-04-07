@@ -1,12 +1,12 @@
 // AddUserForm.js
 import React, { useState } from 'react';
-import './AddUserForm.css'; // Make sure to import the CSS file for styles
+import './AddUserForm.css'; 
 
 const AddUserForm = ({ onSave, onCancel }) => {
   const [newUser, setNewUser] = useState({
-    Name: '',
-    Email: '',
-    Password: '',
+    name: '',
+    email: '',
+    password: '',
     role: '',
   });
 
@@ -18,11 +18,11 @@ const AddUserForm = ({ onSave, onCancel }) => {
     e.preventDefault();
     onSave(newUser);
     setNewUser({
-      Name: '',
-      Email: '',
-      Password: '',
+      name: '',
+      email: '',
+      password: '',
       role: '',
-    }); // Reset the form after saving
+    }); 
   };
 
   return (
@@ -37,8 +37,8 @@ const AddUserForm = ({ onSave, onCancel }) => {
             Name
             <input
               type="text"
-              name="Name"
-              value={newUser.Name}
+              name="name"
+              value={newUser.name}
               onChange={handleChange}
               className="form-input"
             />
@@ -47,8 +47,8 @@ const AddUserForm = ({ onSave, onCancel }) => {
             Email
             <input
               type="email"
-              name="Email"
-              value={newUser.Email}
+              name="email"
+              value={newUser.email}
               onChange={handleChange}
               className="form-input"
             />
@@ -57,8 +57,8 @@ const AddUserForm = ({ onSave, onCancel }) => {
             Password
             <input
               type="password"
-              name="Password"
-              value={newUser.Password}
+              name="password"
+              value={newUser.password}
               onChange={handleChange}
               className="form-input"
             />
@@ -73,7 +73,7 @@ const AddUserForm = ({ onSave, onCancel }) => {
             >
               <option value="">Select Role</option>
               <option value="Admin">Admin</option>
-              <option value="User">User</option>
+              <option value="User">USER</option>
             </select>
           </label>
           <div className="form-actions">
