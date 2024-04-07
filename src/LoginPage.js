@@ -47,10 +47,8 @@ const LoginPage = () => {
       });
   
 
-      // Assuming your backend responds with a token upon successful authentication
       localStorage.setItem('token', response.data.token);
       
-      // Redirect to another route upon successful login. Adjust the route as needed.
       navigate('/Landingpage');
     } catch (error) {
       console.error('Login error:', error);

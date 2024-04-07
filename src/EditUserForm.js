@@ -10,7 +10,9 @@ const EditUserForm = ({ user, onSave, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(editedUser);
+    // Always set the role as "USER" when saving
+    const updatedUser = { ...editedUser, role: 'USER' };
+    onSave(updatedUser);
   };
 
   return (
@@ -20,14 +22,14 @@ const EditUserForm = ({ user, onSave, onCancel }) => {
           <div className="form-header">
             <h2>Edit User</h2>
             {/* Icon or image */}
-            <img src="./public/Images/Edituserlogo.png" alt="Weights Icon" className="form-icon" />
+            <img src="./public/Images/Edituserlogo.png" alt="Edit User Icon" className="form-icon" />
           </div>
           <label className="form-label">
             Name
             <input
               type="text"
-              name="Name"
-              value={editedUser.Name}
+              name="name"
+              value={editedUser.name}
               onChange={handleChange}
               className="form-input"
             />
@@ -36,8 +38,8 @@ const EditUserForm = ({ user, onSave, onCancel }) => {
             Email
             <input
               type="email"
-              name="Email"
-              value={editedUser.Email}
+              name="email"
+              value={editedUser.email}
               onChange={handleChange}
               className="form-input"
             />

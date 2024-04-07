@@ -1,89 +1,67 @@
 import React, { useState } from 'react';
 import './EditForm.css';
 
-/**
- * The EditExercise component allows for editing the details of an exercise.
- * It displays form inputs pre-filled with the exercise's current details,
- * such as title, instructions, category, logo, and picture. Users can update
- * these details and either save the changes or cancel the edit.
- *
- * @component
- * @param {Object} props - Props for EditExercise.
- * @param {Object} props.exercise - The current exercise object to be edited.
- * @param {Function} props.onSave - The function to call when the save button is clicked. Passes the updated exercise object.
- * @param {Function} props.onCancel - The function to call when the cancel button is clicked.
- */
 const EditExercise = ({ exercise, onSave, onCancel }) => {
-  const [title, setTitle] = useState(exercise.title);
-  const [instructions, setInstructions] = useState(exercise.instructions);
-  const [category, setCategory] = useState(exercise.category);
-  const [logo, setLogo] = useState(exercise.logo);
-  const [picture, setPicture] = useState(exercise.picture);
+  const [formValues, setFormValues] = useState({
+    id: exercise.exercise_id, 
+    logo: exercise.logo, 
+    instructions: exercise.instructions,
+    title: exercise.title,
+    exercise_picture: exercise.exercise_picture,
+    category: exercise.category, 
+  });
 
-  /**
-   * Handles the save action, preventing the default form submission event,
-   * and calls the onSave prop with the updated exercise details.
-   * 
-   * @param {Event} e - The event object.
-   */
-  const handleSave = (e) => {
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFormValues(prevState => ({ ...prevState, [field]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    onSave({
-      ...exercise,
-      title,
-      instructions,
-      category,
-      logo,
-      picture,
-    });
-  };
-
-  /**
-   * Updates the logo state to the selected file's URL to display a preview.
-   * 
-   * @param {Event} e - The event object for the file input change.
-   */
-  const handleLogoChange = (e) => {
-    setLogo(URL.createObjectURL(e.target.files[0]));
-  };
-
-  /**
-   * Updates the picture state to the selected file's URL to display a preview.
-   * 
-   * @param {Event} e - The event object for the file input change.
-   */
-  const handlePictureChange = (e) => {
-    setPicture(URL.createObjectURL(e.target.files[0]));
+    onSave(formValues);
   };
 
   return (
     <div className="edit-exercise-form">
-      <div className="form-group">
-        <label>Logo</label>
-        {logo && <img src={logo} alt="Logo Preview" />}
-        <input type="file" onChange={handleLogoChange} />
-      </div>
-      <div className="form-group">
-        <label>Title</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-      </div>
-      <div className="form-group">
-        <label>Instructions</label>
-        <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)} />
-      </div>
-      <div className="form-group">
-        <label>Picture</label>
-        {picture && <img src={picture} alt="Picture Preview" />}
-        <input type="file" onChange={handlePictureChange} />
-      </div>
-      <div className="form-group">
-        <label>Category</label>
-        <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
-      </div>
-      <div className="form-actions">
-        <button className="cancel-btn" onClick={onCancel}>Cancel</button>
-        <button className="save-btn" onClick={handleSave}>Save</button>
-      </div>
+      <form onSubmit={handleSave}>
+        <div className="form-group">
+          <label htmlFor="logo">Logo</label>
+          <input type="file" id="logo" onChange={(e) => handleFileChange(e, 'logo')} />
+          {typeof formValues.logo === 'string' && <img src={formValues.logo} alt="Logo Preview" />}
+        </div>
+        <div className="form-group">
+          <label>Title</label>
+          <input type="text" name="title" value={formValues.title} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label>Instructions</label>
+          <textarea name="instructions" value={formValues.instructions} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="exercise_picture">Picture</label>
+          <input type="file" id="exercise_picture" onChange={(e) => handleFileChange(e, 'exercise_picture')} />
+          {typeof formValues.exercise_picture === 'string' && <img src={formValues.exercise_picture} alt="Exercise Preview" />}
+        </div>
+        <div className="form-group">
+          <label>Category</label>
+          <input type="text" name="category" value={formValues.category} onChange={handleChange} />
+        </div>
+        <div className="form-actions">
+          <button type="button" className="cancel-btn" onClick={onCancel}>Cancel</button>
+          <button type="submit" className="save-btn">Save</button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -16,7 +16,7 @@ const ExerciseCategory = ({ category, exercises, onView, onEdit, onDelete }) => 
                 <div className="exercise-actions">
                   <button className="btn view" onClick={() => onView(exercise)}>View</button>
                   <button className="btn edit" onClick={() => onEdit(exercise)}>Edit</button>
-                  <button className="btn delete" onClick={() => onDelete(exercise.id)}>Delete</button>
+                  <button className="btn delete" onClick={() => onDelete(exercise.exercise_id)}>Delete</button>
                 </div>
               </div>
             </div>

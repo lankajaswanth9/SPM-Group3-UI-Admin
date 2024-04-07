@@ -10,7 +10,9 @@
     z-index: 10;
     left: 50%;                       
     transform: translateX(-50%);     
-    width: 1600px;                  
+    width: 1400px; 
+    margin-bottom: 30px;
+
 }
 
 .navbar-title {
