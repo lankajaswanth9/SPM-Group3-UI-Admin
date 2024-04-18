@@ -91,26 +91,23 @@ const AdminPage = () => {
   };
 
   const handleDeleteClick = async (exercise_id) => {
-    // Attempt to parse the ID as an integer
     const id = parseInt(exercise_id, 10);
 
-    // Check if the result is an integer using the Number.isInteger() function
     if (!Number.isInteger(id)) {
         alert("Invalid exercise ID. Cannot proceed with deletion.");
         return;
     }
 
-    // Proceed with deletion using the validated and converted ID
     try {
         const response = await fetch(`http://localhost:3000/admin/exercises/${id}`, {
             method: 'DELETE',
         });
 
         if (response.ok) {
-            // Handle successful deletion (e.g., refreshing the list of exercises)
-            console.log("Exercise deleted successfully.");
+          alert('Exercise Deleted successfully!');
+          window.location.reload();
+
         } else {
-            // Handle non-successful responses
             alert("Failed to delete the exercise. Please try again.");
         }
     } catch (error) {

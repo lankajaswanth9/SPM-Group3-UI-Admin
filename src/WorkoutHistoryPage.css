@@ -1,0 +1,63 @@
+.workout-history-container {
+    padding: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+    padding-right: 20px;
+  }
+  
+  .date-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f8f8f8; 
+    border-radius: 8px;
+  }
+  
+  .date-header {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    
+
+  }
+  
+  .workouts-of-day {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px;
+    margin-bottom: 20px;
+
+  }
+  
+  .workout-card {
+    width: 100%; 
+    max-width: 300px; 
+    margin: 5px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background: #ffffff;
+  }
+  
+  .workout-card button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #1d90d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 900px) {
+    .workouts-of-day {
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 10px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .workouts-of-day {
+      grid-template-columns: 1fr; 
+    }
+  }
+  

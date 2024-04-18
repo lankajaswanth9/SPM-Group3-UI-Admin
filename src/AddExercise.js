@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AddExercise.css';
 
+
 const AddExercise = ({ onSaveSuccess, onCancel }) => {
   const [title, setTitle] = useState('');
   const [instructions, setInstructions] = useState('');
@@ -49,15 +50,9 @@ const AddExercise = ({ onSaveSuccess, onCancel }) => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response.status === 201) {
-        setTitle('');
-        setInstructions('');
-        setCategory('');
-        setLogo(null);
-        setPicture(null);
-        document.getElementById('logo').value = '';
-        document.getElementById('picture').value = '';
-        onSaveSuccess();
+      if (response.status === 200) {
+        alert('Exercise added successfully!');
+        window.location.reload();
       } else {
         setErrors({ submit: 'Failed to add exercise.' });
       }

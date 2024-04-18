@@ -2,8 +2,8 @@ import React from 'react';
 import './Detailedview.css'; // Import the stylesheet for the detailed view
 
 const DetailedView = ({ exercise, onBackClick }) => {
-  // Split the instructions string into an array of steps, removing any empty strings
-  const instructionSteps = exercise.instructions.split('\n').filter(Boolean);
+  // Split the instructions string into an array of steps, and trim each step to ensure no leading/trailing whitespace
+  const instructionSteps = exercise.instructions.split('\n').filter(step => step.trim());
 
   // Determine the correct property name for the exercise picture URL
   const exerciseImageUrl = exercise.exercise_picture || exercise.logo || exercise.picture;
@@ -19,13 +19,10 @@ const DetailedView = ({ exercise, onBackClick }) => {
         <h1 className="exercise-title">{exercise.title}</h1> {/* Display the exercise title */}
         <div className="exercise-instructions">
           <h2>Instructions:</h2> {/* Heading for the instructions section */}
-          <ol>
-            {instructionSteps.map((step, index) => (
-              // Render each instruction step as an item in an ordered list
-              <li key={index}>{step.trim()}</li> 
-            ))}
-          </ol>
+          <pre className="instructions-text">{exercise.instructions}</pre> 
         </div>
+          
+        
       </div>
     </div>
   );

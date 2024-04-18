@@ -12,6 +12,9 @@ import EditUserForm from './EditUserForm';
 import AddUserForm from './AddUserForm';
 import UserWorkouts from './userworkouts';
 import AddPredefinedWorkout from './Addworkouts';
+import WorkoutHistoryPage from './WorkoutHistoryPage';
+import DetailedView from './DetailedViewworkout';
+
 
 const App = () => {
   return (
@@ -28,6 +31,8 @@ const App = () => {
         <Route path="/admin/users/edit/:userId" element={<EditUserForm />} />
         <Route path="/userworkouts" element={< UserWorkouts />} />
         <Route path="/add-workout" element={<AddPredefinedWorkout/>} />
+        <Route path="/user/:userId/workout-history" element={<WorkoutHistoryPage/>} />
+        <Route path="/workout-details/:workoutId" element={<DetailedView/>} />
       </Routes>
     </Router>
   );

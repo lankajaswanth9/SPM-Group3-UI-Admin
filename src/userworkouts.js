@@ -3,111 +3,104 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import './userworkout.css';
-import DetailedView from './Detailedview';
+import DetailedView from './Detailedview'; 
+import { useNavigate } from 'react-router-dom';
+
 
 const UserWorkouts = () => {
-    const [groupedWorkouts, setGroupedWorkouts] = useState({});
+    const [workouts, setWorkouts] = useState([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchWorkoutExerciseDetails();
+        fetchWorkoutsWithExercises();
     }, []);
 
-    const fetchWorkoutExerciseDetails = async () => {
+    const fetchWorkoutsWithExercises = async () => {
         setLoading(true);
+        const token = localStorage.getItem('token');
         try {
-            const detailsRes = await fetch('http://localhost:3000/admin/allWorkoutExercises', {
+            const response = await fetch('http://localhost:3000/admin/workoutsWithExercises', {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
-            const detailsData = await detailsRes.json();
-    
-            const workoutDetails = {};
-            // Temporarily store fetched exercise details to avoid refetching
-            const exerciseDetailsCache = {};
-    
-            for (const detail of detailsData) {
-                if (!workoutDetails[detail.workout_id]) {
-                    const workoutRes = await fetch(`http://localhost:3000/admin/workouts/${detail.workout_id}`, {
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                        },
-                    });
-                    const workoutData = await workoutRes.json();
-                    workoutDetails[detail.workout_id] = { ...workoutData, exercises: [] };
-                }
-    
-                // Check if exercise details have already been fetched
-                if (!exerciseDetailsCache[detail.exercise_id]) {
-                    const exerciseRes = await fetch(`http://localhost:3000/admin/exercises/${detail.exercise_id}`, {
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                        },
-                    });
-                    const exerciseData = await exerciseRes.json();
-                    exerciseDetailsCache[detail.exercise_id] = exerciseData;
-                }
-    
-                // Add exercise details to the workout, leveraging the cache
-                workoutDetails[detail.workout_id].exercises.push({
-                    detail_id: detail.detail_id,
-                    sets: detail.sets,
-                    reps: detail.reps,
-                    weight: detail.weight,
-                    ...exerciseDetailsCache[detail.exercise_id],
-                });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-    
-            setGroupedWorkouts(workoutDetails);
+            const workoutsData = await response.json();
+            setWorkouts(workoutsData);
         } catch (error) {
-            console.error('Error fetching workout exercise details:', error);
+            console.error('Error fetching workouts with exercises:', error);
         } finally {
             setLoading(false);
         }
     };
-    
 
-    const handleViewClick = (exerciseDetail) => {
-        setSelectedExercise(exerciseDetail);
+    const handleViewClick = (exercise) => {
+        const exerciseDetails = {
+            title: exercise.exercise.title,
+            instructions: exercise.exercise.instructions,
+            exercise_picture: exercise.exercise.logo 
+        };
+        setSelectedExercise(exerciseDetails);
+    };
+
+    const handleBackClick = () => {
+        setSelectedExercise(null);
     };
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (selectedExercise) {
-        return <DetailedView exercise={selectedExercise} onBackClick={() => setSelectedExercise(null)} />;
+
+    const handleEditClick = (workoutId) => {
+        navigate(`/edit-workout/${workoutId}`);
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
     }
+    if (selectedExercise) {
+        return <DetailedView exercise={selectedExercise} onBackClick={handleBackClick} />;
+    }
+    const handleViewDetails = (workoutId) => {
+        navigate(`/workout-details/${workoutId}`); 
+    };
 
 
     return (
         <div className="user-workouts-page">
             <Navbar />
-            <div>  <button className="add-button">
-        <Link to="/add-workout">Add Workout</Link>
-      </button></div>
+            <div>  
+                <button className="add-button">
+                    <Link to="/add-workout">Add Workout</Link>
+                </button>
+            </div>
             <div className="workouts-list">
-                {Object.values(groupedWorkouts).map(workout => (
+                {workouts.map(workout => (
                     <div key={workout.workout_id} className="workout-item">
                         <div className="workout-header">
                             <h3>{workout.workout_name}</h3>
-                            <button className="edit-button" onClick={() => handleEditWorkout(workout.workout_id)}>Edit</button>
+                            <button className="edit-button" onClick={() => handleEditClick(workout.workout_id)}>Edit</button>
+                            <button className="view-button" onClick={() => handleViewDetails(workout.workout_id)}>View</button>
                         </div>
                         <div className="exercises-list">
-                            {workout.exercises.map((exerciseDetail, index) => (
+                            {workout.exercises.map((exercise, index) => (
                                 <div key={index} className="exercise-detail">
-                                    <img src={exerciseDetail.logo} alt={exerciseDetail.exerciseTitle} />
+                                    <img src={exercise.exercise.logo} alt={exercise.exercise.title} />
                                     <div>
-                                        <h4>{exerciseDetail.title}</h4>
-                                        <p><b>Category: </b>{exerciseDetail.category}</p>
-                                        <p><b>Sets:</b> {exerciseDetail.sets}</p>
-                                        <p><b>Reps:</b> {exerciseDetail.reps}</p>
-                                        <p><b>Weight:</b> {exerciseDetail.weight}</p>
+                                        <h4>{exercise.exercise.title}</h4>
+                                        <p><b>Category:</b> {exercise.exercise.category}</p>
+                                        <div>
+                                        <p><b>Sets:</b> {exercise.sets}</p>
+                                        <p><b>Reps:</b> {exercise.reps}</p>
+                                        <p><b>Weight:</b> {exercise.weight}</p>
                                     </div>
-                                
-                                    <button className="view-button" onClick={() => handleViewClick(exerciseDetail)}>View</button>
+                                    </div>
+                                    <button className="view-button" onClick={() => handleViewClick(exercise)}>View</button>
                                 </div>
                             ))}
                         </div>
