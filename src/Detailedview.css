@@ -59,6 +59,7 @@
   width: 800px; 
   height: 300px;
   object-fit: contain; 
+  
 }
 
 /**
@@ -95,4 +96,11 @@
   font-size: 1em;
   line-height: 1.6; 
   text-align: justify; 
+  overflow: auto;
+  max-width: 800px;
+}
+
+.instructions-text{
+  font-size: 18px;
+  font-family: ' Arial', sans-serif;
 }

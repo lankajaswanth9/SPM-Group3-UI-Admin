@@ -6,24 +6,27 @@ import AddUserForm from './AddUserForm';
 import './UserManagementPage.css';
 import './Navbar.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [addingUser, setAddingUser] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; 
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:3000/users', {
           headers: {
             'Authorization': `Bearer ${token}`, 
             'Content-Type': 'application/json',
           },
         });
-        setUsers(response.data); 
+        const userRoleFiltered = response.data.filter(user => user.role === 'USER');
+        setUsers(userRoleFiltered); 
       } catch (error) {
         console.error('Error fetching users:', error);
         alert('Error fetching users: ' + error.message); 
@@ -32,6 +35,7 @@ const UserManagementPage = () => {
   
     fetchUsers();
   }, []);
+  
 
   const handleEdit = (user) => {
     setEditingUser(user);
@@ -66,7 +70,7 @@ const UserManagementPage = () => {
 
   const handleDelete = async (user_id) => {
     try {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; // Replace with your JWT token
+      const token = localStorage.getItem('token');
       await axios.delete(`http://localhost:3000/users/${user_id}`, {
         headers: {
           'Authorization': `Bearer ${token}`, 
@@ -90,8 +94,8 @@ const UserManagementPage = () => {
 
   const handleSaveNewUser = async (newUser) => {
     try {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTE3MjUyMjB9.u8vdK1HALZkXcz3VcaPgzwsWGWxOneWCj_zGaZnOy8Q'; // Replace with your JWT token
-      const response = await axios.post('http://localhost:3000/users', newUser, {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://localhost:3000/auth/signup', newUser, {
         headers: {
           'Authorization': `Bearer ${token}`, 
           'Content-Type': 'application/json',
@@ -111,29 +115,25 @@ const UserManagementPage = () => {
   };
 
 
+  const viewWorkoutHistory = (userId) => {
+    navigate(`/user/${userId}/workout-history`);
+  };
+
   return (
     <>
       <Navbar />
       <div className="user-management-container">
         <div className="user-management">
-          <input type="text" placeholder="Search by name" />
-          <input type="text" placeholder="Search by Email id" />
-          <h2>User Accounts</h2>
+          {/* Search fields and User Account header */}
           <button className="add-user-btn" onClick={handleAddUser}>Add New User</button>
-          <UserList users={users} onEdit={handleEdit} onDelete={handleDelete} />
-          {editingUser && (
-            <EditUserForm
-              user={editingUser}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-          )}
-          {addingUser && (
-            <AddUserForm
-              onSave={handleSaveNewUser}
-              onCancel={handleCancel}
-            />
-          )}
+          <UserList
+            users={users}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onViewHistory={viewWorkoutHistory} 
+          />
+          {editingUser && <EditUserForm user={editingUser} onSave={handleSave} onCancel={handleCancel} />}
+          {addingUser && <AddUserForm onSave={handleSaveNewUser} onCancel={handleCancel} />}
         </div>
       </div>
     </>

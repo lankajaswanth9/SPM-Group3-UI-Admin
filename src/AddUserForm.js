@@ -21,7 +21,7 @@ const AddUserForm = ({ onSave, onCancel }) => {
       name: '',
       email: '',
       password: '',
-      role: '',
+      role: 'USER',
     }); 
   };
 
@@ -63,19 +63,7 @@ const AddUserForm = ({ onSave, onCancel }) => {
               className="form-input"
             />
           </label>
-          <label className="form-label">
-            Role
-            <select
-              name="role"
-              value={newUser.role}
-              onChange={handleChange}
-              className="form-select"
-            >
-              <option value="">Select Role</option>
-              <option value="Admin">Admin</option>
-              <option value="User">USER</option>
-            </select>
-          </label>
+
           <div className="form-actions">
             <button type="submit" className="save-btn">Add</button>
             <button type="button" onClick={onCancel} className="cancel-btn">Cancel</button>

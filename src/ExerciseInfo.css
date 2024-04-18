@@ -1,0 +1,99 @@
+/* DetailedView.css */
+
+/**
+ * .detailed-view:
+ * Styles the container of the detailed view component.
+ * - Uses flex layout to organize its children vertically and align them centrally.
+ * - Margins, padding, and max-width are set for proper spacing and sizing.
+ * - Box shadow and border properties enhance the visual presentation.
+ * - The background is white with rounded corners for a clean, modern look.
+ */
+ .detailed-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    max-width: 800px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd; 
+    background: #fff;
+    border-radius: 10px; 
+  }
+  
+  /**
+  * .back-btn:
+  * Styles the back button to return to the previous view.
+  * - Aligns itself to the start of its flex container.
+  * - Padding and margin are defined for comfortable interaction and spacing.
+  * - The cursor is set to pointer to indicate clickability.
+  */
+  .back-btn {
+    align-self: flex-start;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  /**
+  * .exercise-images:
+  * Intended for styling a container of exercise images (if more than one image is to be displayed).
+  * - Displays images in a row with center alignment and gaps for spacing.
+  * - Margin-bottom separates the images from following content.
+  */
+  .exercise-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    margin-bottom: 20px;
+  }
+  
+  /**
+  * .exercise-image:
+  * Applies to individual exercise images.
+  * - Ensures the image does not exceed the max width of the container.
+  * - The height is set to auto for maintaining the aspect ratio.
+  * - Object-fit contain ensures the image is fully visible without distortion.
+  */
+  .exercise-image {
+    width: 800px; 
+    height: 300px;
+    object-fit: contain; 
+  }
+  
+  /**
+  * .exercise-title:
+  * Styles the title of the exercise.
+  * - Font size and text alignment are set for prominence and readability.
+  * - A bottom margin separates the title from the content below.
+  */
+  .exercise-title {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  
+  /**
+  * .exercise-tit:
+  * Alternative or additional style for exercise titles or subtitles.
+  * - Slightly smaller font size and left-aligned text.
+  * - Margin-bottom provides spacing to following content.
+  */
+  .exercise-tit {
+    font-size: 1.5em;
+    text-align: left;
+    margin-bottom: 1em;
+  }
+  
+  /**
+  * .exercise-instructions:
+  * Styles the textual instructions for the exercise.
+  * - Font size for readability, with increased line height for better legibility.
+  * - Text is justified for a neat, aligned appearance.
+  */
+  .exercise-instructions {
+    font-size: 1em;
+    line-height: 1.6; 
+    text-align: justify; 
+  }
+  

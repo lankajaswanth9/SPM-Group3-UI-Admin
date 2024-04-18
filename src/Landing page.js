@@ -118,7 +118,7 @@ const LandingPage = () => {
     const userDataImageUrl = 'https://static.vecteezy.com/system/resources/previews/005/419/001/original/illustration-of-customer-data-user-data-customer-analytic-user-personal-data-costumer-statistic-can-be-used-for-web-landing-page-social-media-mobile-apps-animation-etc-vector.jpg';
     const dashboardImageUrl = 'https://cdn1.vectorstock.com/i/1000x1000/79/10/cartoon-color-characters-people-build-dashboard-vector-35307910.jpg';
     const editWorkoutsImageUrl = 'https://previews.123rf.com/images/gmast3r/gmast3r1912/gmast3r191200926/135660953-santa-claus-doing-exercises-on-stepper-treadmill-people-training-workout-healthy-lifestyle-concept.jpg';
-    const reportsImageUrl = 'https://t3.ftcdn.net/jpg/01/34/35/86/360_F_134358697_bWE6vHPDP2Z3lma65Khv9O1hnCwCJb5l.jpg';
+  
 
     return (
         <div style={pageStyle}>
@@ -127,7 +127,7 @@ const LandingPage = () => {
                 <div className='Logo'>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaQfALhECwtR_ZlrM6zvAJ7z0G3pvq4L-R1w&usqp=CAU" alt="Logo" style={{width: '60px', height: '60px', marginLeft: '20px',}} />
                 </div>
-                <h2 style={centerText}>Tracker Hacker</h2>
+                <h2 style={centerText}>Weight Lifting Tracker </h2>
                 <div>
                     <div 
                         onMouseEnter={handleMouseEnter} 
@@ -200,16 +200,7 @@ const LandingPage = () => {
                         </Link>
                         <p style={imageNameStyle}>Edit Ecercises</p>
                     </div>
-                    <div style={imageItem}>
-                        <Link to="/reports" style={navItemStyle}>
-                            <img 
-                                src={reportsImageUrl} 
-                                alt="Reports" 
-                                style={imageStyle} 
-                            />
-                        </Link>
-                        <p style={imageNameStyle}>View Reports</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
