@@ -18,7 +18,7 @@ const AdminPage = () => {
 
   const fetchExercises = async () => {
     try {
-      const response = await fetch('http://localhost:3000/admin/exercises');
+      const response = await fetch('http://3.14.144.6:3000/admin/exercises');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -41,7 +41,7 @@ const AdminPage = () => {
   };
 
   const handleSaveAddExercise = async (newExercise) => {
-    const response = await fetch('http://localhost:3000/admin/exercises', {
+    const response = await fetch('http://3.14.144.6:3000/admin/exercises', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newExercise),
@@ -62,7 +62,7 @@ const AdminPage = () => {
   };
 
   const handleSaveEdit = async (updatedExercise) => {
-    const response = await fetch(`http://localhost:3000/admin/exercises/${updatedExercise.id}`, {
+    const response = await fetch(`http://3.14.144.6:3000/admin/exercises/${updatedExercise.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedExercise),
@@ -99,7 +99,7 @@ const AdminPage = () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/admin/exercises/${id}`, {
+        const response = await fetch(`http://3.14.144.6:3000/admin/exercises/${id}`, {
             method: 'DELETE',
         });
 

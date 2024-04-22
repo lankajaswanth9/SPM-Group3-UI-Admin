@@ -18,8 +18,9 @@ const UserManagementPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        //const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJsYW5rajAxQHBmdy5lZHUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MTM0OTc1NTh9.8wskbAqU2J-30Etp5ABz4s51vSUCuTUdkTgGcWtjmA8'
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/users', {
+        const response = await axios.get('http://3.14.144.6:3000/users', {
           headers: {
             'Authorization': `Bearer ${token}`, 
             'Content-Type': 'application/json',
@@ -46,14 +47,14 @@ const UserManagementPage = () => {
     try {
     
       const token = localStorage.getItem('token'); 
-      await axios.put(`http://localhost:3000/users/${updatedUser.user_id}`, updatedUser, {
+      await axios.put(`http://3.14.144.6:3000/users/${updatedUser.user_id}`, updatedUser, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
   
-      // Update the local state to reflect the changes
+     
       setUsers(users.map(user => user.user_id === updatedUser.user_id ? updatedUser : user));
       setEditingUser(null);
     } catch (error) {
@@ -71,7 +72,7 @@ const UserManagementPage = () => {
   const handleDelete = async (user_id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/users/${user_id}`, {
+      await axios.delete(`http://3.14.144.6:3000/users/${user_id}`, {
         headers: {
           'Authorization': `Bearer ${token}`, 
           'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ const UserManagementPage = () => {
   const handleSaveNewUser = async (newUser) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:3000/auth/signup', newUser, {
+      const response = await axios.post('http://3.14.144.6:3000/auth/signup', newUser, {
         headers: {
           'Authorization': `Bearer ${token}`, 
           'Content-Type': 'application/json',
@@ -124,7 +125,6 @@ const UserManagementPage = () => {
       <Navbar />
       <div className="user-management-container">
         <div className="user-management">
-          {/* Search fields and User Account header */}
           <button className="add-user-btn" onClick={handleAddUser}>Add New User</button>
           <UserList
             users={users}

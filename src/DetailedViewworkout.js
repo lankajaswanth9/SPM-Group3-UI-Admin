@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -10,9 +9,9 @@ const DetailedView = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchAllWorkouts = async () => {
+    const fetchWorkoutDetails = async () => {
       try {
-        const response = await fetch('http://localhost:3000/admin/workoutsWithExercises', {
+        const response = await fetch(`http://3.14.144.6:3000/admin/workoutsWithExercises/${workoutId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -20,17 +19,16 @@ const DetailedView = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const allWorkouts = await response.json();
-        const selectedWorkout = allWorkouts.find(workout => workout.workout_id.toString() === workoutId);
+        const workoutData = await response.json();
         
-        console.log('Selected Workout:', selectedWorkout);
+        console.log('Workout Details:', workoutData);
   
-        setWorkoutDetails(selectedWorkout);
+        setWorkoutDetails(workoutData);
       } catch (error) {
         console.error('Error fetching workout details:', error);
       }
     };
-    fetchAllWorkouts();
+    fetchWorkoutDetails();
   }, [workoutId, token]);
   
 
@@ -51,10 +49,9 @@ const DetailedView = () => {
               <div>
                 <h4>{exercise.exercise.title}</h4>
                 <div>
-                                        
-                                        <p><b>Sets:</b> {exercise.sets}</p>
-                                        <p><b>Reps:</b> {exercise.reps}</p>
-                                        <p><b>Weight:</b> {exercise.weight}</p>
+                  <p><b>Sets:</b> {exercise.sets}</p>
+                  <p><b>Reps:</b> {exercise.reps}</p>
+                  <p><b>Weight:</b> {exercise.weight}</p>
                 </div>
               </div>
             </div>
@@ -66,5 +63,3 @@ const DetailedView = () => {
 };
 
 export default DetailedView;
-
-

@@ -46,7 +46,7 @@ const AddExercise = ({ onSaveSuccess, onCancel }) => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/admin/exercises', formData, {
+      const response = await axios.post('http://3.14.144.6:3000/admin/exercises', formData, {
         headers: { 'Content-Type': 'application/json' },
       });
 

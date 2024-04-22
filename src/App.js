@@ -14,6 +14,7 @@ import UserWorkouts from './userworkouts';
 import AddPredefinedWorkout from './Addworkouts';
 import WorkoutHistoryPage from './WorkoutHistoryPage';
 import DetailedView from './DetailedViewworkout';
+import EditPredefinedWorkout from './EditPredefinedWorkout';
 
 
 const App = () => {
@@ -33,6 +34,8 @@ const App = () => {
         <Route path="/add-workout" element={<AddPredefinedWorkout/>} />
         <Route path="/user/:userId/workout-history" element={<WorkoutHistoryPage/>} />
         <Route path="/workout-details/:workoutId" element={<DetailedView/>} />
+        <Route path="/edit-workout/:workoutId" element={<EditPredefinedWorkout />} />
+
       </Routes>
     </Router>
   );

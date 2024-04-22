@@ -21,7 +21,7 @@ const UserWorkouts = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:3000/admin/workoutsWithExercises', {
+            const response = await fetch('http://3.14.144.6:3000/admin/workoutsWithExercises', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -69,23 +69,48 @@ const UserWorkouts = () => {
     const handleViewDetails = (workoutId) => {
         navigate(`/workout-details/${workoutId}`); 
     };
-
+    const handleDeleteClick = async (workoutId) => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`http://3.14.144.6:3000/admin/workout/${workoutId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete the workout');
+            }
+            // Remove the workout from the state to update UI
+            setWorkouts(workouts.filter(workout => workout.workout_id !== workoutId));
+            // Show an alert for successful deletion
+            alert('Deletion successful!');
+        } catch (error) {
+            console.error('Error deleting workout:', error);
+            alert('Failed to delete workout.');
+        }
+    };
+    
 
     return (
         <div className="user-workouts-page">
             <Navbar />
-            <div>  
-                <button className="add-button">
-                    <Link to="/add-workout">Add Workout</Link>
-                </button>
-            </div>
             <div className="workouts-list">
+                <div>  
+                    <button className="add-button">
+                        <Link to="/add-workout">Add Workout</Link>
+                    </button>
+                </div>
                 {workouts.map(workout => (
                     <div key={workout.workout_id} className="workout-item">
                         <div className="workout-header">
                             <h3>{workout.workout_name}</h3>
+                            <div >
                             <button className="edit-button" onClick={() => handleEditClick(workout.workout_id)}>Edit</button>
                             <button className="view-button" onClick={() => handleViewDetails(workout.workout_id)}>View</button>
+                            <button className="delete-button" onClick={() => handleDeleteClick(workout.workout_id)}>Delete</button>
+
+                            </div>
                         </div>
                         <div className="exercises-list">
                             {workout.exercises.map((exercise, index) => (

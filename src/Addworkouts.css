@@ -56,6 +56,18 @@
   background-color: #28a745;
   color: white;
 }
+.input-field textarea {
+  width: 100%;
+  padding: 4px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.input-field #notes {
+  min-height: 100px; 
+  resize: vertical; 
+}
+
 
 .remove-exercise-btn {
   background-color: #dc3545;

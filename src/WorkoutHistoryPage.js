@@ -12,19 +12,16 @@ const WorkoutHistoryPage = () => {
   useEffect(() => {
     const fetchWorkoutHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/admin/allWorkoutHistory', {
+        const response = await axios.get(`http://3.14.144.6:3000/admin/allWorkoutHistoryByUser/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 
-
-        const historyWithNamesPromises = response.data
-          .filter(history => history.user_id === parseInt(userId))
-          .map(async (history) => {
-            const workoutResponse = await axios.get(`http://localhost:3000/admin/workouts/${history.workout_id}`, {
-              headers: { 'Authorization': `Bearer ${token}` },
-            });
-            return { ...history, workoutName: workoutResponse.data.workout_name };
+        const historyWithNamesPromises = response.data.map(async (history) => {
+          const workoutResponse = await axios.get(`http://3.14.144.6:3000/admin/workouts/${history.workout_id}`, {
+            headers: { 'Authorization': `Bearer ${token}` },
           });
+          return { ...history, workoutName: workoutResponse.data.workout_name };
+        });
         
         const historyWithNames = await Promise.all(historyWithNamesPromises);
         setWorkoutHistory(historyWithNames);
@@ -39,7 +36,7 @@ const WorkoutHistoryPage = () => {
 
   const groupWorkoutsByDate = (workouts) => {
     return workouts.reduce((grouped, workout) => {
-      const date = new Date(workout.workout_startTime).toLocaleDateString();
+      const date = new Date(workout.workout_starttime).toLocaleDateString();
       if (!grouped[date]) {
         grouped[date] = [];
       }
@@ -55,22 +52,19 @@ const WorkoutHistoryPage = () => {
     <>
       <Navbar /> {/* This will render the Navbar component */}
       <div className="workout-history-container">
-        <h1>Workout History for User {userId}</h1>
+        <h1>Workout History</h1>
         {noWorkouts ? (
           <p>No workouts found for this user.</p> 
         ) : (
           Object.entries(groupedWorkouts).map(([date, workouts]) => (
             <div key={date} className="date-section">
-            <h2 className="date-header">{date}</h2>
+              <h2 className="date-header">{date}</h2>
               <div className="workouts-of-day">
                 {workouts.map((workout, index) => (
                   <div className="workout-card" key={index}>
                     <h3>{workout.workoutName}</h3>
-                    <p><b>Start Time:</b> {new Date(workout.workout_startTime).toLocaleTimeString()}</p>
-                    <p><b>End Time:</b>{new Date(workout.workout_EndTime).toLocaleTimeString()}</p>
-                    <button onClick={() => { /* handle click event */ }}>
-                      View
-                    </button>
+                    <p><b>Start Time:</b> {new Date(workout.workout_starttime).toLocaleTimeString()}</p>
+                    <p><b>End Time:</b> {new Date(workout.workout_endtime).toLocaleTimeString()}</p>
                   </div>
                 ))}
               </div>

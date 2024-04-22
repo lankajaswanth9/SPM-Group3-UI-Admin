@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Addworkouts.css';
+import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function AddPredefinedWorkout() {
   const [workoutName, setWorkoutName] = useState('');
   const [workoutDate, setWorkoutDate] = useState(new Date().toISOString().split('T')[0]);
+  const [notes, setNotes] = useState(''); 
+
   const [exercisesList, setExercisesList] = useState([]);
   const [workoutExercises, setWorkoutExercises] = useState([
     { exercise_id: '', sets: 1, reps: 1, weight: 0 },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); 
+
 
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/admin/exercises');
+        const response = await axios.get('http://3.14.144.6:3000/admin/exercises');
         setExercisesList(response.data);
       } catch (error) {
         console.error('Error fetching exercises:', error);
@@ -25,6 +31,11 @@ function AddPredefinedWorkout() {
 
     fetchExercises();
   }, []);
+
+  const handleNotesChange = (e) => {
+    setNotes(e.target.value); 
+  };
+
 
   const handleWorkoutChange = (e) => {
     setWorkoutName(e.target.value);
@@ -57,43 +68,44 @@ function AddPredefinedWorkout() {
     }
     setIsSubmitting(true);
     const token = localStorage.getItem('token');
-
-
+    const currentDate = new Date().toISOString().split('T')[0];
+  
     try {
-      const workoutResponse = await axios.post(
-        'http://localhost:3000/admin/saveWorkout',
-        { 
-          workout_name: workoutName, 
-          workout_date: workoutDate,
-          notes: '', 
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-
-      const workout_id = workoutResponse.data.workout_id;
-
-      await axios.post('http://localhost:3000/admin/saveWorkoutExerciseLinkage', {
-        workout_id: workout_id,
-        exercises: workoutExercises
-      }, {
+      const payload = {
+        workout_name: workoutName, 
+        workout_date: currentDate,
+        notes: notes, 
+        exercises: workoutExercises.map(ex => ({
+          exerciseId: Number(ex.exercise_id),
+          sets: ex.sets,
+          reps: ex.reps,
+          weight: ex.weight
+        }))
+      };
+  
+      const response = await axios.post('http://3.14.144.6:3000/admin/saveWorkout', payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
       alert('Workout and exercises saved successfully!');
+      navigate('/userWorkouts');
       setWorkoutName('');
       setWorkoutDate(new Date().toISOString().split('T')[0]);
       setWorkoutExercises([{ exercise_id: '', sets: 1, reps: 1, weight: 0 }]);
     } catch (error) {
       console.error('Failed to save workout:', error);
-      alert(error);
+      if (error.response && error.response.data) {
+        alert('Failed to save workout. Error: ' + error.response.data.message);
+      } else {
+        alert('Failed to save workout. Error: ' + error.message);
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
+    <>
+    <Navbar />
     <div className="workout-form-container">
       <form onSubmit={handleSubmit} className="workout-form">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -102,8 +114,8 @@ function AddPredefinedWorkout() {
           <input id="workout_name" type="text" value={workoutName} onChange={handleWorkoutChange} />
         </div>
         <div className="input-field">
-          <label htmlFor="workout_date">Workout Date</label>
-          <input id="workout_date" type="date" value={workoutDate} onChange={handleDateChange} />
+          <label htmlFor="notes">Notes</label>
+          <textarea id="notes" value={notes} onChange={handleNotesChange} />
         </div>
         {workoutExercises.map((exercise, index) => (
           <div key={index} className="exercise-field">
@@ -129,6 +141,7 @@ function AddPredefinedWorkout() {
         </button>
       </form>
     </div>
+    </>
   );
 }
 

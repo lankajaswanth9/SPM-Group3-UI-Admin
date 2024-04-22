@@ -31,7 +31,6 @@ const AddUserForm = ({ onSave, onCancel }) => {
         <form onSubmit={handleSubmit} className="add-user-form">
           <div className="form-header">
             <h2>Add New User</h2>
-            <img src="./public/Images/Adduserlogo.png" alt="Add User Icon" className="form-icon" />
           </div>
           <label className="form-label">
             Name

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import Axios
+import axios from 'axios'; 
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -37,7 +37,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      const response = await axios.post(`http://localhost:3000/auth/signin`, {
+      const response = await axios.post(`http://3.14.144.6:3000/auth/signin`, {
         email,
         password,
       }, {
@@ -52,8 +52,23 @@ const LoginPage = () => {
       navigate('/Landingpage');
     } catch (error) {
       console.error('Login error:', error);
-      setPasswordError('Invalid login credentials. Please try again.');
+      if (error.response) {
+        // Server responded with an error
+        if (error.response.status === 401) {
+          setPasswordError('Invalid email or password. Please try again.');
+        } else {
+          setPasswordError(`Server error: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        setPasswordError('Network error. Please check your internet connection.');
+      } else {
+        // Something happened in setting up the request that triggered an error
+        setPasswordError('An unexpected error occurred. Please try again later.');
+      }
     }
+    
+    
   };
 
   return (
