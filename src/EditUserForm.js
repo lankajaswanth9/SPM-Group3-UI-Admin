@@ -1,18 +1,35 @@
-import React from 'react';
-import './EditUserForm.css'; // Make sure to import the CSS file for styles
+// EditUserForm.js
 
-const EditUserForm = ({ user, onSave, onCancel }) => {
-  const [editedUser, setEditedUser] = React.useState({ ...user });
+import React, { useState } from 'react';
+import axios from 'axios';
+import './EditUserForm.css'; 
+
+const EditUserForm = ({ user }) => {
+  const [name, setName] = useState(user.name);
+  const [error, setError] = useState(null); 
 
   const handleChange = (e) => {
-    setEditedUser({ ...editedUser, [e.target.name]: e.target.value });
+    setName(e.target.value);
+    if (error) setError(null);  
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Always set the role as "USER" when saving
-    const updatedUser = { ...editedUser, role: 'USER' };
-    onSave(updatedUser);
+    const updatedUser = { name, user_id: user.user_id };
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post('http://3.14.144.6:3000/admin/updateuser', updatedUser, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      alert('User updated successfully!'); 
+      window.location.reload(); 
+    } catch (error) {
+      console.error('Error updating user:', error);
+      setError('Error updating user: ' + error.message); 
+    }
   };
 
   return (
@@ -21,7 +38,6 @@ const EditUserForm = ({ user, onSave, onCancel }) => {
         <form onSubmit={handleSubmit} className="edit-user-form">
           <div className="form-header">
             <h2>Edit User</h2>
-            {/* Icon or image */}
             <img src="./public/Images/Edituserlogo.png" alt="Edit User Icon" className="form-icon" />
           </div>
           <label className="form-label">
@@ -29,24 +45,15 @@ const EditUserForm = ({ user, onSave, onCancel }) => {
             <input
               type="text"
               name="name"
-              value={editedUser.name}
+              value={name}
               onChange={handleChange}
               className="form-input"
             />
           </label>
-          <label className="form-label">
-            Email
-            <input
-              type="email"
-              name="email"
-              value={editedUser.email}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
+          {error && <p className="error-text">{error}</p>}
           <div className="form-actions">
             <button type="submit" className="save-btn">Save</button>
-            <button type="button" onClick={onCancel} className="cancel-btn">Cancel</button>
+            <button type="button" onClick={() => window.location.reload()} className="cancel-btn">Cancel</button>
           </div>
         </form>
       </div>
